@@ -1,0 +1,151 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+  canonical?: string;
+  ogImage?: string;
+}
+
+const {
+  title,
+  description = 'Praxiswissen rund um Hühnerhaltung: Brut, Gesundheit, Haltung, Pflege und nützliche Rechner.',
+  canonical = Astro.url.href,
+  ogImage = '/assets/og-default.jpg',
+} = Astro.props;
+
+const fullTitle = title === 'Hühnerwissen' ? title : `${title} | Hühnerwissen`;
+
+const nav = [
+  { label: 'Brut & Küken',           href: '/brut/' },
+  { label: 'Haltung & Pflege',        href: '/haltung/' },
+  { label: 'Gesundheit',              href: '/gesundheit/' },
+  { label: 'Tools & Rechner',         href: '/tools/' },
+  { label: 'Blog & Tests',            href: '/blog/' },
+  { label: 'Über die Seite',          href: '/ueber/' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="de" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={ogImage} />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+</head>
+<body class="bg-cream font-body text-bark antialiased">
+
+  <!-- HEADER -->
+  <header class="sticky top-0 z-50 bg-cream/95 backdrop-blur-sm border-b border-straw-dark/30 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Logo -->
+        <a href="/" class="flex items-center gap-2 group">
+          <span class="text-2xl">🐓</span>
+          <span class="font-display font-bold text-xl text-forest-dark group-hover:text-forest transition-colors">
+            Hühnerwissen
+          </span>
+        </a>
+
+        <!-- Desktop Nav -->
+        <nav class="hidden lg:flex items-center gap-1">
+          {nav.map(item => (
+            <a
+              href={item.href}
+              class={`px-3 py-2 rounded-md text-sm font-body transition-all duration-200 hover:bg-straw hover:text-forest-dark
+                ${currentPath.startsWith(item.href) ? 'bg-straw text-forest-dark font-semibold' : 'text-bark'}`}
+            >
+              {item.label}
+            </a>
+          ))}
+        </nav>
+
+        <!-- Mobile menu button -->
+        <button id="mobile-menu-btn" class="lg:hidden p-2 rounded-md hover:bg-straw transition-colors" aria-label="Menü öffnen">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Nav -->
+    <div id="mobile-menu" class="hidden lg:hidden border-t border-straw-dark/30 bg-cream">
+      <nav class="px-4 py-3 flex flex-col gap-1">
+        {nav.map(item => (
+          <a
+            href={item.href}
+            class={`px-3 py-2 rounded-md text-sm transition-colors hover:bg-straw hover:text-forest-dark
+              ${currentPath.startsWith(item.href) ? 'bg-straw text-forest-dark font-semibold' : 'text-bark'}`}
+          >
+            {item.label}
+          </a>
+        ))}
+      </nav>
+    </div>
+  </header>
+
+  <!-- PAGE CONTENT -->
+  <main>
+    <slot />
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-bark text-straw-light mt-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-2xl">🐓</span>
+            <span class="font-display font-bold text-xl text-straw-light">Hühnerwissen</span>
+          </div>
+          <p class="text-sm text-sand leading-relaxed max-w-sm">
+            Praxisnahes Wissen für Hobbyhalter: von der Brut bis zur gesunden Herde.
+            Keine Hochglanz-Ratschläge, sondern echte Erfahrung.
+          </p>
+        </div>
+        <div>
+          <h4 class="font-display font-bold text-straw mb-3 text-sm uppercase tracking-wider">Themen</h4>
+          <ul class="space-y-2 text-sm text-sand">
+            {nav.slice(0, 4).map(item => (
+              <li><a href={item.href} class="hover:text-straw transition-colors">{item.label}</a></li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-display font-bold text-straw mb-3 text-sm uppercase tracking-wider">Rechtliches</h4>
+          <ul class="space-y-2 text-sm text-sand">
+            <li><a href="/impressum/" class="hover:text-straw transition-colors">Impressum</a></li>
+            <li><a href="/datenschutz/" class="hover:text-straw transition-colors">Datenschutz</a></li>
+            <li><a href="/affiliate/" class="hover:text-straw transition-colors">Affiliate-Hinweis</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-bark/50 mt-8 pt-6 text-xs text-sand/70 flex flex-col sm:flex-row justify-between gap-2">
+        <p>© {new Date().getFullYear()} Hühnerwissen. Alle Rechte vorbehalten.</p>
+        <p>
+          <span class="text-sand/50">*Affiliate-Links – ohne Mehrkosten für dich.</span>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const btn = document.getElementById('mobile-menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    btn?.addEventListener('click', () => menu?.classList.toggle('hidden'));
+  </script>
+</body>
+</html>
