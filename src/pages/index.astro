@@ -1,0 +1,79 @@
+---
+import Base from '../layouts/Base.astro';
+import CategoryCard from '../components/CategoryCard.astro';
+import AffiliateBox from '../components/AffiliateBox.astro';
+
+const categories = [
+  {
+    title: 'Brut & Küken',
+    href: '/brut/',
+    icon: '🥚',
+    description: 'Kunstbrut, Naturbrut, Bruteiauswahl, Inkubator-Einstellungen – alles was du für einen erfolgreichen Schlupf brauchst.',
+    articles: ['Kunstbrut: Schritt-für-Schritt', 'Bruttemperatur richtig einstellen', 'Küken aufziehen ohne Glucke'],
+  },
+  {
+    title: 'Haltung & Pflege',
+    href: '/haltung/',
+    icon: '🏡',
+    description: 'Stallbau, Einstreue, Auslauf, Fütterung und das kleine Einmaleins der täglichen Hühnerpflege.',
+    articles: ['Hühnerstall selber bauen', 'Die beste Einstreu', 'Hühner winterfest machen'],
+  },
+  {
+    title: 'Gesundheit & Krankheiten',
+    href: '/gesundheit/',
+    icon: '💊',
+    description: 'Milben, Wurmbefall, Atemwegserkrankungen – Symptome erkennen, behandeln und vorbeugen.',
+    articles: ['Rote Vogelmilbe bekämpfen', 'Marek-Krankheit: Was tun?', 'Natürliche Entwurmung'],
+  },
+  {
+    title: 'Tools & Rechner',
+    href: '/tools/',
+    icon: '🧮',
+    description: 'Platzrechner, Futterrechner, Schlupftermin-Kalkulator – praktische Helfer für deinen Alltag.',
+    articles: ['Platzrechner', 'Futterrechner', 'Schlupftermin-Kalender'],
+  },
+  {
+    title: 'Blog & Tests',
+    href: '/blog/',
+    icon: '📝',
+    description: 'Produkttests, Erfahrungsberichte, Vergleiche von Inkubatoren, Wärmeplatten und Stallzubehör.',
+    articles: ['Wärmeplatte vs. Wärmelampe', 'Inkubator-Test 2024', 'Bestes Tränkensystem'],
+  },
+  {
+    title: 'Über die Seite',
+    href: '/ueber/',
+    icon: '👋',
+    description: 'Wer steckt hinter Hühnerwissen? Warum diese Seite entstand und was dich hier erwartet.',
+    articles: [],
+  },
+];
+---
+
+<Base title="Hühnerwissen" description="Praxiswissen rund um Hühnerhaltung: Brut, Gesundheit, Haltung, Pflege und kostenlose Rechner für Hobbyhalter.">
+  <section class="relative overflow-hidden bg-forest-dark">
+    <div class="absolute inset-0 opacity-10 bg-grain"></div>
+    <div class="absolute inset-0 bg-gradient-to-br from-forest-dark via-forest to-bark opacity-90"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
+      <div class="max-w-2xl">
+        <div class="flex items-center gap-2 mb-6">
+          <span class="bg-straw/20 text-straw text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">Für Hobbyhalter</span>
+        </div>
+        <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-cream leading-tight mb-6">Alles rund ums<br /><span class="text-straw italic">Huhn</span> 🐔</h1>
+        <p class="text-straw/80 text-lg sm:text-xl leading-relaxed mb-8 max-w-xl">Praxisnahes Wissen für Hobbyhalter: von der Brut über Krankheiten bis zum richtigen Stallbau. Keine Hochglanz-Ratschläge – echte Erfahrung aus dem Alltag.</p>
+        <div class="flex flex-col sm:flex-row gap-3">
+          <a href="/tools/" class="inline-flex items-center justify-center gap-2 bg-straw text-bark font-bold px-6 py-3 rounded-xl hover:bg-straw-light transition-colors">🧮 Zu den Rechnern</a>
+          <a href="/brut/" class="inline-flex items-center justify-center gap-2 bg-white/10 text-cream font-semibold px-6 py-3 rounded-xl hover:bg-white/20 transition-colors border border-white/20">Brut & Küken entdecken</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="text-center mb-10">
+      <h2 class="font-display text-3xl font-bold text-bark mb-3">Was interessiert dich?</h2>
+      <p class="text-earth max-w-lg mx-auto">Alle Themen rund ums Huhn – strukturiert, suchmaschinenoptimiert und direkt auf den Punkt.</p>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      {categories.map(cat => <CategoryCard {...cat} />)}
+    </div>
+  </section>
+</Base>

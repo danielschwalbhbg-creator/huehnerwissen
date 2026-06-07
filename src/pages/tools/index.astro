@@ -1,0 +1,27 @@
+---
+import Base from '../../layouts/Base.astro';
+import PlatzRechner from '../../components/PlatzRechner.astro';
+import FutterRechner from '../../components/FutterRechner.astro';
+---
+
+<Base title="Tools & Rechner" description="Kostenlose Rechner für Hühnerhalter.">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <header class="mb-12 max-w-2xl">
+      <h1 class="font-display text-4xl font-bold text-bark mb-4">Kostenlose Rechner 🧮</h1>
+    </header>
+    <div class="space-y-12">
+      <div id="platz-rechner">
+        <h2 class="font-display text-2xl font-bold text-bark mb-4">Platzrechner</h2>
+        <div class="max-w-2xl">
+          <PlatzRechner />
+        </div>
+      </div>
+      <div id="futter-rechner">
+        <h2 class="font-display text-2xl font-bold text-bark mb-4">Futterrechner</h2>
+        <div class="max-w-2xl">
+          <FutterRechner />
+        </div>
+      </div>
+    </div>
+  </div>
+</Base>
