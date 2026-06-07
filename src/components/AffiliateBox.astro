@@ -1,0 +1,90 @@
+---
+export interface Props {
+  title: string;
+  description: string;
+  price?: string;
+  rating?: number;   // 1-5
+  pros?: string[];
+  badge?: string;    // e.g. "Empfehlung", "Bestseller"
+  imageAlt?: string;
+  imageSrc?: string;
+  affiliateUrl: string;
+  buttonText?: string;
+}
+
+const {
+  title,
+  description,
+  price,
+  rating = 0,
+  pros = [],
+  badge,
+  imageAlt = title,
+  imageSrc,
+  affiliateUrl,
+  buttonText = 'Jetzt ansehen →',
+} = Astro.props;
+
+const stars = Math.round(Math.max(0, Math.min(5, rating)));
+---
+
+<div class="bg-white border border-straw-dark/40 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col">
+  <!-- Image area -->
+  <div class="relative bg-straw/30 aspect-[4/3] overflow-hidden">
+    {badge && (
+      <span class="absolute top-3 left-3 z-10 bg-forest text-cream text-xs font-semibold px-2.5 py-1 rounded-full">
+        {badge}
+      </span>
+    )}
+    {imageSrc ? (
+      <img src={imageSrc} alt={imageAlt} class="w-full h-full object-contain p-4" loading="lazy" />
+    ) : (
+      <div class="w-full h-full flex items-center justify-center text-6xl opacity-30">📦</div>
+    )}
+  </div>
+
+  <div class="p-5 flex flex-col flex-1 gap-3">
+    <!-- Title + price -->
+    <div class="flex items-start justify-between gap-2">
+      <h3 class="font-display font-bold text-bark text-base leading-snug">{title}</h3>
+      {price && <span class="text-forest font-bold text-sm whitespace-nowrap">{price}</span>}
+    </div>
+
+    <!-- Stars -->
+    {rating > 0 && (
+      <div class="flex items-center gap-1">
+        {Array.from({ length: 5 }, (_, i) => (
+          <svg class={`w-4 h-4 ${i < stars ? 'text-amber-400' : 'text-straw-dark/40'}`} fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+          </svg>
+        ))}
+      </div>
+    )}
+
+    <!-- Description -->
+    <p class="text-sm text-earth/80 leading-relaxed flex-1">{description}</p>
+
+    <!-- Pros -->
+    {pros.length > 0 && (
+      <ul class="space-y-1">
+        {pros.map(pro => (
+          <li class="flex items-start gap-2 text-xs text-forest">
+            <span class="mt-0.5 text-forest">✓</span>
+            <span class="text-earth">{pro}</span>
+          </li>
+        ))}
+      </ul>
+    )}
+
+    <!-- CTA -->
+    <a
+      href={affiliateUrl}
+      rel="nofollow noopener sponsored"
+      target="_blank"
+      class="mt-2 block w-full text-center bg-forest hover:bg-forest-dark text-cream font-semibold text-sm py-2.5 px-4 rounded-xl transition-colors duration-200"
+    >
+      {buttonText}
+    </a>
+    <p class="text-center text-[10px] text-earth/50">* Affiliate-Link</p>
+  </div>
+</div>
