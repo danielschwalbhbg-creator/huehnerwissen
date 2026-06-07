@@ -1,0 +1,31 @@
+---
+export interface Props {
+  title: string;
+  description: string;
+  href: string;
+  icon: string;
+  articles?: string[];
+}
+const { title, description, href, icon, articles = [] } = Astro.props;
+---
+
+<a href={href} class="group block bg-white border border-straw-dark/30 rounded-2xl p-6 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
+  <div class="text-3xl mb-3">{icon}</div>
+  <h3 class="font-display font-bold text-bark text-lg mb-2 group-hover:text-forest transition-colors">
+    {title}
+  </h3>
+  <p class="text-sm text-earth leading-relaxed mb-4">{description}</p>
+  {articles.length > 0 && (
+    <ul class="space-y-1">
+      {articles.map(a => (
+        <li class="text-xs text-forest/80 flex items-center gap-1.5">
+          <span class="w-1 h-1 bg-forest/40 rounded-full inline-block"></span>
+          {a}
+        </li>
+      ))}
+    </ul>
+  )}
+  <div class="mt-4 text-xs font-semibold text-forest group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+    Alle Artikel <span>→</span>
+  </div>
+</a>

@@ -1,0 +1,71 @@
+---
+export interface Product {
+  title: string;
+  price?: string;
+  rating?: number;
+  badge?: string;
+  affiliateUrl: string;
+  imageSrc?: string;
+  features: Record<string, string | boolean>;
+}
+
+export interface Props {
+  products: Product[];
+  criteria: { key: string; label: string }[];
+}
+
+const { products, criteria } = Astro.props;
+---
+
+<div class="overflow-x-auto -mx-4 sm:mx-0">
+  <table class="w-full min-w-[600px] border-collapse text-sm">
+    <thead>
+      <tr>
+        <th class="text-left p-3 bg-straw/50 border border-straw-dark/30 font-display text-bark w-1/4">Kriterium</th>
+        {products.map((p, i) => (
+          <th class={`p-3 border border-straw-dark/30 text-center ${i === 0 ? 'bg-forest/10' : 'bg-straw/30'}`}>
+            {p.badge && (
+              <span class="block text-[10px] uppercase tracking-wider font-bold text-forest mb-1">{p.badge}</span>
+            )}
+            <span class="font-display font-bold text-bark block">{p.title}</span>
+            {p.price && <span class="text-forest font-bold block mt-1">{p.price}</span>}
+          </th>
+        ))}
+      </tr>
+    </thead>
+    <tbody>
+      {criteria.map(({ key, label }, rowIdx) => (
+        <tr class={rowIdx % 2 === 0 ? 'bg-white' : 'bg-straw/20'}>
+          <td class="p-3 border border-straw-dark/20 font-semibold text-earth">{label}</td>
+          {products.map(p => {
+            const val = p.features[key];
+            return (
+              <td class="p-3 border border-straw-dark/20 text-center text-bark">
+                {typeof val === 'boolean'
+                  ? (val ? <span class="text-forest text-base">✓</span> : <span class="text-red-400 text-base">✗</span>)
+                  : val ?? <span class="text-earth/30">—</span>
+                }
+              </td>
+            );
+          })}
+        </tr>
+      ))}
+      <tr class="bg-straw/30">
+        <td class="p-3 border border-straw-dark/20 font-semibold text-earth">Kaufen</td>
+        {products.map(p => (
+          <td class="p-3 border border-straw-dark/20 text-center">
+            <a
+              href={p.affiliateUrl}
+              rel="nofollow noopener sponsored"
+              target="_blank"
+              class="inline-block bg-forest hover:bg-forest-dark text-cream text-xs font-semibold px-4 py-2 rounded-lg transition-colors"
+            >
+              Ansehen →
+            </a>
+          </td>
+        ))}
+      </tr>
+    </tbody>
+  </table>
+  <p class="text-[10px] text-earth/50 mt-2 px-1">* Affiliate-Links – Preise können variieren.</p>
+</div>

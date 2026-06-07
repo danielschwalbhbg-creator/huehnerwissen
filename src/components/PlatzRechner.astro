@@ -1,0 +1,38 @@
+---
+// Platzrechner Komponente
+---
+
+<div id="platz-rechner" class="bg-straw/30 rounded-2xl p-6 max-w-2xl">
+  <h3 class="font-display text-2xl font-bold text-bark mb-4">🧮 Platzrechner</h3>
+  <div class="space-y-4">
+    <div>
+      <label class="block text-sm font-semibold text-bark mb-2">Anzahl Hühner:</label>
+      <input type="number" id="huehner-count" value="8" min="1" class="w-full p-2 border border-straw-dark/30 rounded" />
+    </div>
+    <div>
+      <label class="block text-sm font-semibold text-bark mb-2">Haltungsform:</label>
+      <select id="haltungsform" class="w-full p-2 border border-straw-dark/30 rounded">
+        <option value="bio">Bio-Standard (10m² pro Huhn)</option>
+        <option value="standard">Standard (4m² pro Huhn)</option>
+        <option value="minimal">Minimal (2m² pro Huhn)</option>
+      </select>
+    </div>
+  </div>
+  <div id="result" class="mt-6 p-4 bg-white rounded-lg border border-straw-dark/30 text-sm text-earth"></div>
+</div>
+
+<script>
+  const calculate = () => {
+    const count = parseInt(document.getElementById('huehner-count').value) || 0;
+    const form = document.getElementById('haltungsform').value;
+    const factors = { bio: 10, standard: 4, minimal: 2 };
+    const area = count * factors[form];
+    document.getElementById('result').innerHTML = `
+      <strong>${count} Hühner brauchen:</strong><br>
+      Stallfläche: ${area}m² | Auslauf: ${area * 2}m²
+    `;
+  };
+  document.getElementById('huehner-count')?.addEventListener('input', calculate);
+  document.getElementById('haltungsform')?.addEventListener('change', calculate);
+  calculate();
+</script>
